@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<SignAssembly>False</SignAssembly>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageId>Fondness.Cipher</PackageId>
+		<Authors>Eslam M. Tammam</Authors>
+		<Company>Fondness Open Source Contributers</Company>
+		<RepositoryUrl>https://github.com/etammam/cipher</RepositoryUrl>
+		<PackageTags>Encrypt, Decrypt, String, Cipher, Security, Extension, Password</PackageTags>
+		<NeutralLanguage>en</NeutralLanguage>
+		<ApplicationIcon>binary_icon_211573.ico</ApplicationIcon>
+		<Copyright>© Fondness 2022</Copyright>
+		<PackageIcon>binary_icon_211573.png</PackageIcon>
+		<Description>a simple high-performance string encryption and decryption extension</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageVersion>1.0.0</PackageVersion>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<PackageLicenseUrl>https://github.com/etammam/enigma/blob/master/LICENSE</PackageLicenseUrl>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Content Include="binary_icon_211573.ico" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="..\..\.assets\binary_icon_211573.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+</Project>
