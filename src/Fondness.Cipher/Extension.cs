@@ -5,7 +5,7 @@ namespace Fondness.Cipher
 {
     public static class Extension
     {
-        const string EncryptionKey = "";
+        private const string EncryptionKey = "b14ca5898a4e4133bbce2ea2315a1916";
 
         /// <summary>
         /// uses this extension to encrypt a string
