@@ -1,0 +1,26 @@
+<Project>
+  <PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
+    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <SignAssembly>False</SignAssembly>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>Fondness.Cipher</PackageId>
+    <Authors>Eslam M. Tammam</Authors>
+    <Company>Fondness Open Source Contributers</Company>
+    <RepositoryUrl>https://github.com/etammam/cipher</RepositoryUrl>
+    <PackageTags>Encrypt, Decrypt, String, Cipher, Security, Extension, Password</PackageTags>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Copyright>© Fondness 2022</Copyright>
+    <PackageIcon>icon.png</PackageIcon>
+    <Description>a simple high-performance string encryption and decryption extension</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageVersion>1.0.0</PackageVersion>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://github.com/etammam/enigma/blob/master/LICENSE</PackageLicenseUrl>
+  </PropertyGroup>
+  <ItemGroup Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
+    <None Include="../../.assets/icon.png" Pack="true" Visible="false" PackagePath="/" />
+    <None Include="../../README.md" Pack="true" Visible="false" PackagePath="/" />
+  </ItemGroup>
+</Project>

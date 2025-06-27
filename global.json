@@ -1,0 +1,9 @@
+{
+  "sdk": {
+    "version": "9.0.100",
+    "rollForward": "latestMinor"
+  },
+  "msbuild-sdks": {
+    "Microsoft.NET.Sdk": "9.0.100"
+  }
+}
