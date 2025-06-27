@@ -90,39 +90,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
-    - name: Update README.md
-      run: |
-        VERSION=${{ steps.get_version.outputs.version }}
-        
-        # Update PackageReference version in README
-        sed -i "s/Version=\"[0-9]\+\.[0-9]\+\.[0-9]\+\"/Version=\"$VERSION\"/g" README.md
-        
-        # Update NuGet badge if it exists
-        if grep -q "nuget/v/Fondness.Cipher" README.md; then
-          sed -i "s|shields.io/nuget/v/Fondness.Cipher[^)]*)|\&|g" README.md
-        fi
-        
-        # Update any other version references
-        if grep -q "Fondness.Cipher.*[0-9]\+\.[0-9]\+\.[0-9]\+" README.md; then
-          sed -i "s/Fondness\.Cipher.*[0-9]\+\.[0-9]\+\.[0-9]\+/Fondness.Cipher $VERSION/g" README.md
-        fi
-        
-        echo "📝 Updated README.md with version $VERSION"
-        
-    - name: Commit README Updates
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        
-        if git diff --quiet README.md; then
-          echo "📝 No README changes to commit"
-        else
-          git add README.md
-          git commit -m "docs: update README with version v${{ steps.get_version.outputs.version }} [skip ci]"
-          git push
-          echo "📝 README updated and committed"
-        fi
-        
     - name: Summary
       run: |
         echo "✅ Post-release tasks completed:"
