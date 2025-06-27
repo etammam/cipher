@@ -15,7 +15,6 @@
     <PackageIcon>icon.png</PackageIcon>
     <Description>a simple high-performance string encryption and decryption extension</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageVersion>1.0.0</PackageVersion>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://github.com/etammam/enigma/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
