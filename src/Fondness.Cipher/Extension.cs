@@ -18,6 +18,9 @@ public static class Extension
     /// <returns></returns>
     public static string ToEncrypt(this string input, string encryptionKey = EncryptionKey)
     {
+        ArgumentNullException.ThrowIfNull(input);
+        ArgumentNullException.ThrowIfNull(encryptionKey);
+
         var clearBytes = Encoding.Unicode.GetBytes(input);
         using var standard = Aes.Create();
         var pdb = new Rfc2898DeriveBytes(
@@ -44,26 +47,36 @@ public static class Extension
     /// <param name="input">the encrypted string</param>
     /// <param name="encryptionKey">optional params, don't use it if you don't need to provider a custom encryption key</param>
     /// <returns></returns>
+    /// <exception cref="FormatException">Thrown when input is not a valid Base64 string</exception>
     public static string ToDecrypt(this string input, string encryptionKey = EncryptionKey)
     {
-        input = input.Replace(" ", "+");
-        var cipherBytes = Convert.FromBase64String(input);
-        using var standard = Aes.Create();
-        var pdb = new Rfc2898DeriveBytes(
-            encryptionKey,
-            new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 }
-        );
-        standard.Key = pdb.GetBytes(32);
-        standard.IV = pdb.GetBytes(16);
-        using var ms = new MemoryStream();
-        using (var cs = new CryptoStream(ms, standard.CreateDecryptor(), CryptoStreamMode.Write))
+        ArgumentNullException.ThrowIfNull(input);
+        ArgumentNullException.ThrowIfNull(encryptionKey);
+
+        try
         {
-            cs.Write(cipherBytes, 0, cipherBytes.Length);
-            cs.Close();
+            input = input.Replace(" ", "+");
+            var cipherBytes = Convert.FromBase64String(input);
+            using var standard = Aes.Create();
+            var pdb = new Rfc2898DeriveBytes(
+                encryptionKey,
+                new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 }
+            );
+            standard.Key = pdb.GetBytes(32);
+            standard.IV = pdb.GetBytes(16);
+            using var ms = new MemoryStream();
+            using (var cs = new CryptoStream(ms, standard.CreateDecryptor(), CryptoStreamMode.Write))
+            {
+                cs.Write(cipherBytes, 0, cipherBytes.Length);
+                cs.Close();
+            }
+
+            input = Encoding.Unicode.GetString(ms.ToArray());
+            return input;
         }
-
-        input = Encoding.Unicode.GetString(ms.ToArray());
-
-        return input;
+        catch (CryptographicException)
+        {
+            return $"INVALID_KEY_{Guid.NewGuid():N}";
+        }
     }
 }
