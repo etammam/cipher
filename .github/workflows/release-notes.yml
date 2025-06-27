@@ -1,0 +1,130 @@
+name: Post-Release Actions
+
+on:
+  workflow_run:
+    workflows: ["Fondness Enigma - Release"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+jobs:
+  post-release-tasks:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Get Package Version
+      id: get_version
+      run: |
+        VERSION=$(grep -o '<PackageVersion>[^<]*' Directory.Build.props | sed 's/<PackageVersion>//')
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Package version: $VERSION"
+        
+    - name: Generate Release Notes
+      id: release_notes
+      run: |
+        cat > release_notes.md << 'EOF'
+        ## 🚀 Fondness.Cipher v${{ steps.get_version.outputs.version }}
+        
+        ### 📦 What's New
+        - High-performance string encryption and decryption using AES encryption
+        - Support for custom encryption keys
+        - Multi-framework support (.NET 6.0, 7.0, 8.0, 9.0)
+        - Simple extension methods for easy integration
+        
+        ### 🔧 Technical Details
+        - **Algorithm**: AES (Advanced Encryption Standard)
+        - **Key Derivation**: PBKDF2 with custom salt
+        - **Output Format**: Base64 encoded strings
+        - **Exception Handling**: Proper error handling for invalid inputs
+        
+        ### 📋 Usage
+        ```csharp
+        using Fondness.Cipher;
+        
+        // Basic usage with default key
+        string encrypted = "Hello World!".ToEncrypt();
+        string decrypted = encrypted.ToDecrypt();
+        
+        // Custom encryption key
+        string customKey = "your-32-character-encryption-key";
+        string encrypted = "Secret".ToEncrypt(customKey);
+        string decrypted = encrypted.ToDecrypt(customKey);
+        ```
+        
+        ### 📦 Installation
+        ```bash
+        dotnet add package Fondness.Cipher
+        ```
+        
+        ### 🔗 Links
+        - [NuGet Package](https://www.nuget.org/packages/Fondness.Cipher/)
+        - [GitHub Repository](https://github.com/etammam/cipher)
+        - [Documentation](https://github.com/etammam/cipher#readme)
+        
+        ---
+        **Full Changelog**: https://github.com/etammam/cipher/commits/v${{ steps.get_version.outputs.version }}
+        EOF
+        
+        # Set the release notes as output
+        echo "notes<<EOF" >> $GITHUB_OUTPUT
+        cat release_notes.md >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+        
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ steps.get_version.outputs.version }}
+        name: Fondness.Cipher v${{ steps.get_version.outputs.version }}
+        body: ${{ steps.release_notes.outputs.notes }}
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Update README.md
+      run: |
+        VERSION=${{ steps.get_version.outputs.version }}
+        
+        # Update PackageReference version in README
+        sed -i "s/Version=\"[0-9]\+\.[0-9]\+\.[0-9]\+\"/Version=\"$VERSION\"/g" README.md
+        
+        # Update NuGet badge if it exists
+        if grep -q "nuget/v/Fondness.Cipher" README.md; then
+          sed -i "s|shields.io/nuget/v/Fondness.Cipher[^)]*)|\&|g" README.md
+        fi
+        
+        # Update any other version references
+        if grep -q "Fondness.Cipher.*[0-9]\+\.[0-9]\+\.[0-9]\+" README.md; then
+          sed -i "s/Fondness\.Cipher.*[0-9]\+\.[0-9]\+\.[0-9]\+/Fondness.Cipher $VERSION/g" README.md
+        fi
+        
+        echo "📝 Updated README.md with version $VERSION"
+        
+    - name: Commit README Updates
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        if git diff --quiet README.md; then
+          echo "📝 No README changes to commit"
+        else
+          git add README.md
+          git commit -m "docs: update README with version v${{ steps.get_version.outputs.version }} [skip ci]"
+          git push
+          echo "📝 README updated and committed"
+        fi
+        
+    - name: Summary
+      run: |
+        echo "✅ Post-release tasks completed:"
+        echo "📄 GitHub release created: https://github.com/etammam/cipher/releases/tag/v${{ steps.get_version.outputs.version }}"
+        echo "📝 README.md updated with version ${{ steps.get_version.outputs.version }}"
