@@ -3,7 +3,7 @@ name: Fondness Enigma - Release
 on:
   workflow_run:
     workflows: ["Fondness Enigma - CI"]
-    branches: [ master ]
+    branches: [ main ]
     types:
       - completed
 
