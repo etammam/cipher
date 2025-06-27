@@ -1,7 +1,7 @@
 # Fondness.Cipher
 
 [![CI](https://github.com/etammam/cipher/actions/workflows/dotnet.yml/badge.svg)](https://github.com/etammam/cipher/actions/workflows/dotnet.yml)
-[![NuGet Version](https://img.shields.io/nuget/v/Fondness.Cipher)](https://www.nuget.org/packages/Fondness.Cipher/)
+[![NuGet Version](https://img.&](https://www.nuget.org/packages/Fondness.Cipher/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Fondness.Cipher)](https://www.nuget.org/packages/Fondness.Cipher/)
 [![License](https://img.shields.io/github/license/etammam/cipher)](https://github.com/etammam/cipher/blob/master/LICENSE)
 
