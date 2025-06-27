@@ -1,7 +1,7 @@
 # Fondness.Cipher
 
 [![CI](https://github.com/etammam/cipher/actions/workflows/dotnet.yml/badge.svg)](https://github.com/etammam/cipher/actions/workflows/dotnet.yml)
-[![NuGet Version](https://img.&](https://www.nuget.org/packages/Fondness.Cipher/)
+[![NuGet version (Newtonsoft.Json)](https://img.shields.io/nuget/v/Fondness.Cipher.svg?style=flat-square)](https://www.nuget.org/packages/Fondness.Cipher/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Fondness.Cipher)](https://www.nuget.org/packages/Fondness.Cipher/)
 [![License](https://img.shields.io/github/license/etammam/cipher)](https://github.com/etammam/cipher/blob/master/LICENSE)
 
@@ -93,10 +93,6 @@ catch (CryptographicException)
 - .NET 8.0
 - .NET 9.0
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -121,4 +117,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 🛡️ License
 
-&copy;Fondness Open Source. Licensed under the [MIT License](LICENSE).
+&copy; Fondness Open Source. Licensed under the [APACHE](LICENSE).

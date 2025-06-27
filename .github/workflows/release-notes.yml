@@ -1,4 +1,4 @@
-name: Post-Release Actions
+name: Fondness Enigma - Release Notes
 
 on:
   workflow_run:
@@ -23,7 +23,7 @@ jobs:
     - name: Get Package Version
       id: get_version
       run: |
-        VERSION=$(grep -o '<PackageVersion>[^<]*' Directory.Build.props | sed 's/<PackageVersion>//')
+        VERSION=$(grep -o '<VersionPrefix>[^<]*' Directory.Version.props | sed 's/<VersionPrefix>//')
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "Package version: $VERSION"
         
